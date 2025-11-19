@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="optionWindow hidden" id="optionWindow">
+        <div class="optionContent" id="optionContent">
+            <ul>
+                <img src="images/Close.png" alt="close" class="closeBtn" id="closeBtn">
+                <h3>Pages</h3>
+                <br>
+                <li><a href="index.html" class="selected">Generate QR Code</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="qrCodeOverlay hidden" id="qrCodeOverlay">
+        <div class="qrCodeWindow" id="qrCodeWindow">
+            <img src="images/Close.png" alt="close" class="closeBtn" id="closeBtn2">
+            <h1 class="center title_2">Your QR Code</h1>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <ul>
+            <li><img src="images/Bars.png" alt="Options" class="options" id="options"></li>
+            <li><img src="images/Logo.png" alt="Logo" class="logo"></li>
+            <li><img src="images/moon.png" alt="toggleMode" class="mode" id="mode"></li>
+        </ul>
+    </nav>
+
+    <section class="mainSection">
+        <h1 class="tertiary center title_1">Generate Your QR Code</h1>
+        <div class="container">
+            <h4>Transform your link into a QR code!</h4>
+            <h5 class="secondary">Enter your website or page link</h5>
+            <input type="text" id="qrText" placeholder="https://example.com" required class="input">
+            <button id="generateBtn" class="btn primary">Generate QR Code</button>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+
+    const generateQR = document.getElementById("generateBtn")
+    const text = document.getElementById("qrText")
+
+    generateQR.onclick = function() {
+        if (!text.value) {
+            alert("Please enter a valid link.");
+            return;
+        }
+
+        const qrWindow = document.getElementById("qrCodeWindow");
+        Array.from(qrWindow.children).forEach(child => {
+            if (!child.classList.contains('closeBtn') && child.tagName !== 'H1') {
+                child.remove();
+            }
+        });
+
+        let qrcode = new QRCode(qrWindow, {
+         text: text.value,
+         width: 128,
+         height: 128,
+         colorDark: "#000000",
+         colorLight: "#ffffff",
+         correctLevel: QRCode.CorrectLevel.H
+        });
+
+        qrWindow.classList.toggle("scale-in-center");
+        document.getElementById("qrCodeOverlay").classList.toggle("hidden");
+    }
+
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
